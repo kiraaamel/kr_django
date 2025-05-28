@@ -10,8 +10,8 @@
             background-color: #DCDCDC;
         }
         h1, h2 {
-        text-align: center;
-        color: #7B68EE;
+            text-align: center;
+            color: #7B68EE;
         }
         table {
             border-collapse: collapse;
@@ -50,7 +50,6 @@
                     <th>Дата создания записи</th>
                     <th>Дата проведения экзамена</th>
                     <th>Задание (изображение)</th>
-                    <th>Опубликовано</th>
                     <th>Пользователи, пишущие экзамен</th>
                 </tr>
             </thead>
@@ -67,7 +66,6 @@
                             Нет изображения
                         {% endif %}
                     </td>
-                    <td>{{ exam.is_public|yesno:"Да,Нет" }}</td>
                     <td>
                         {% for user in exam.users.all %}
                             {{ user.get_full_name }} — {{ user.email }}<br/>
