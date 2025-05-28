@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8" />
+    <title>Экзамены kmexam</title>
+    <style>
+        body {
+            font-family: "Times New Roman", Times, serif;
+            margin: 20px;
+            background-color: #DCDCDC;
+        }
+        h1, h2 {
+        text-align: center;
+        color: #7B68EE;
+        }
+        table {
+            border-collapse: collapse;
+            width: 100%;
+            font-weight: bold;
+        }
+        th, td {
+            border: 1px solid #ccc;
+            padding: 8px 12px;
+            vertical-align: top;
+        }
+        thead th {
+            background-color: #7B68EE;
+            text-align: center;
+            font-weight: bold;
+        }
+        img.exam-image {
+            max-width: 600px;
+            height: auto;
+            display: block;
+            margin: 0 auto;
+            border: 1px solid #aaa;
+            border-radius: 4px;
+            box-shadow: 2px 2px 5px rgba(0,0,0,0.1);
+        }
+    </style>
+</head>
+<body>
+    <h1>Макарова Кира Игоревна — группа 241-671</h1>
+    <h2>Опубликованные экзамены</h2>
+    {% if exams %}
+        <table>
+            <thead>
+                <tr>
+                    <th>Название экзамена</th>
+                    <th>Дата создания записи</th>
+                    <th>Дата проведения экзамена</th>
+                    <th>Задание (изображение)</th>
+                    <th>Опубликовано</th>
+                    <th>Пользователи, пишущие экзамен</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for exam in exams %}
+                <tr>
+                    <td>{{ exam.title }}</td>
+                    <td>{{ exam.created_at|date:"d.m.Y H:i" }}</td>
+                    <td>{{ exam.exam_date|date:"d.m.Y" }}</td>
+                    <td>
+                        {% if exam.image %}
+                            <img class="exam-image" src="{{ exam.image.url }}" alt="Задание экзамена" />
+                        {% else %}
+                            Нет изображения
+                        {% endif %}
+                    </td>
+                    <td>{{ exam.is_public|yesno:"Да,Нет" }}</td>
+                    <td>
+                        {% for user in exam.users.all %}
+                            {{ user.get_full_name }} — {{ user.email }}<br/>
+                        {% empty %}
+                            Пользователи не назначены
+                        {% endfor %}
+                    </td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    {% else %}
+        <p>Нет опубликованных экзаменов.</p>
+    {% endif %}
+</body>
+</html>
